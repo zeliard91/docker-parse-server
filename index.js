@@ -260,7 +260,7 @@ var api = new ParseServer({
 
     auth: auth,
     facebookAppIds: facebookAppIds,
-    maxUploadSize: process.env.MAX_UPLOAD_SIZE,
+    maxUploadSize: process.env.MAX_UPLOAD_SIZE || '20mb',
     push: pushConfig,
     verifyUserEmails: verifyUserEmails,
     emailAdapter: emailAdapter,

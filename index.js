@@ -177,19 +177,31 @@ if (!emailModule) {
         emailAdapterOptions.verificationSubject = process.env.EMAIL_VERIFICATION_SUBJECT;
     }
     if (process.env.EMAIL_VERIFICATION_BODY) {
-        emailAdapterOptions.verificationBody = process.env.EMAIL_VERIFICATION_BODY;
+        emailAdapterOptions.verificationBody = process.env.EMAIL_VERIFICATION_BODY.replace(/\\n/g, '\n');
     }
     if (process.env.EMAIL_VERIFICATION_BODY_HTML) {
-        emailAdapterOptions.verificationBodyHTML = fs.readFileSync(process.env.EMAIL_VERIFICATION_BODY_HTML, "utf8") || process.env.EMAIL_VERIFICATION_BODY_HTML;
+        fs.access(process.env.EMAIL_VERIFICATION_BODY_HTML, fs.constants.F_OK, function(err) {
+            if (err) {
+                emailAdapterOptions.verificationBodyHTML = process.env.EMAIL_VERIFICATION_BODY_HTML;
+            } else {
+                emailAdapterOptions.verificationBodyHTML = fs.readFileSync(process.env.EMAIL_VERIFICATION_BODY_HTML, "utf8");
+            }
+        });
     }
     if (process.env.EMAIL_PASSWORD_RESET_SUBJECT) {
         emailAdapterOptions.passwordResetSubject = process.env.EMAIL_PASSWORD_RESET_SUBJECT;
     }
     if (process.env.EMAIL_PASSWORD_RESET_BODY) {
-        emailAdapterOptions.passwordResetBody = process.env.EMAIL_PASSWORD_RESET_BODY;
+        emailAdapterOptions.passwordResetBody = process.env.EMAIL_PASSWORD_RESET_BODY.replace(/\\n/g, '\n');
     }
     if (process.env.EMAIL_PASSWORD_RESET_BODY_HTML) {
-        emailAdapterOptions.passwordResetBodyHTML = fs.readFileSync(process.env.EMAIL_PASSWORD_RESET_BODY_HTML, "utf8") || process.env.EMAIL_PASSWORD_RESET_BODY_HTML;
+        fs.access(process.env.EMAIL_PASSWORD_RESET_BODY_HTML, fs.constants.F_OK, function(err) {
+            if (err) {
+                emailAdapterOptions.passwordResetBodyHTML = process.env.EMAIL_PASSWORD_RESET_BODY_HTML;
+            } else {
+                emailAdapterOptions.passwordResetBodyHTML = fs.readFileSync(process.env.EMAIL_PASSWORD_RESET_BODY_HTML, "utf8");
+            }
+        });
     }
     emailAdapter = {
         module: emailModule,
@@ -283,8 +295,8 @@ var api = new ParseServer({
 //console.log("masterKey: " + api.masterKey);
 //console.log("cloud: " + api.cloud);
 //console.log("databaseURI: " + api.databaseURI);
-console.log("appId: " + process.env.APP_ID);
-console.log("masterKey: " + process.env.MASTER_KEY);
+console.log("appId: " + process.env.APP_ID.substring(0, 5)+'...');
+console.log("masterKey: " + process.env.MASTER_KEY.substring(0, 5)+'...');
 
 var app = express();
 

@@ -1,4 +1,4 @@
-FROM node:8
+FROM node:carbon
 
 ENV PARSE_HOME /parse
 

@@ -106,9 +106,8 @@ if(process.env.APNS_BUNDLES_ID && process.env.APNS_BUNDLES_P12 && process.env.AP
 
 
 var pushConfig = {};
-if (gcmId && gcmKey) {
+if (gcmKey) {
     pushConfig.android = {
-        senderId: gcmId,
         apiKey: gcmKey
     }
 }
